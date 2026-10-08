@@ -10,6 +10,17 @@
 go get github.com/lonegunmanb/youtube-caption-extractor-go
 ```
 
+命令行工具可从 YouTube 视频 URL 获取 JSON 格式的视频详情（标题、描述、字幕）：
+
+```sh
+go build -o youtube-caption-extractor ./cmd
+./youtube-caption-extractor 'https://www.youtube.com/watch?v=7GeFt8suV8E'
+```
+
+支持 `youtube.com/watch?v=...`、`youtube.com/shorts/...`、`youtube.com/live/...`、
+`youtube.com/embed/...`、`youtu.be/...` 和 `youtube-nocookie.com/embed/...` 链接。
+成功时将 JSON 输出到标准输出；参数无效或提取失败时将错误输出到标准错误并返回非零状态码。
+
 ```go
 package main
 
@@ -80,7 +91,7 @@ func main() {
 
 Go 使用类型化 JSON 解析；字段类型错误等非协议响应会返回错误，不模拟 JavaScript 的
 隐式类型转换。与上游不同，显式空 `Lang` 等同于省略语言。该库用于服务端，
-不执行 URL 转视频 ID、字幕翻译、缓存或自动重试。
+库 API 不执行 URL 转视频 ID、字幕翻译、缓存或自动重试；命令行工具会从 URL 提取视频 ID。
 
 ## 测试
 
