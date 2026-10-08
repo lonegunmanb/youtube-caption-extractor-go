@@ -13,7 +13,8 @@ go get github.com/lonegunmanb/youtube-caption-extractor-go
 命令行工具可从 YouTube 视频 URL 获取 JSON 格式的视频详情（标题、描述、字幕）：
 
 ```sh
-go build -o youtube-caption-extractor ./cmd
+go install ./cmd/ytbext
+go build -o youtube-caption-extractor ./cmd/ytbext
 ./youtube-caption-extractor 'https://www.youtube.com/watch?v=7GeFt8suV8E'
 ```
 

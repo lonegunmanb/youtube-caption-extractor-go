@@ -54,6 +54,18 @@ func TestRun(t *testing.T) {
 		Subtitles: []caption.Subtitle{{Start: "1.2", Dur: "3", Text: "Hello"}},
 	}
 	var output bytes.Buffer
+	for _, helpFlag := range []string{"-h", "--help"} {
+		output.Reset()
+		err := run([]string{helpFlag}, &output, func(caption.Options) (caption.VideoDetails, error) {
+			t.Fatal("lookup called for help")
+			return caption.VideoDetails{}, nil
+		})
+		if err != nil || output.String() != "Usage: ytbext <youtube-video-url>\n" {
+			t.Fatalf("run(%q) = %q, %v; want usage and no error", helpFlag, output.String(), err)
+		}
+	}
+
+	output.Reset()
 	err := run([]string{"https://youtu.be/dQw4w9WgXcQ"}, &output, func(options caption.Options) (caption.VideoDetails, error) {
 		if options.VideoID != "dQw4w9WgXcQ" {
 			t.Fatalf("unexpected video ID: %q", options.VideoID)

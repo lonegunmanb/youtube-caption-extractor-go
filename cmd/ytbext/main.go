@@ -49,8 +49,12 @@ func videoID(input string) (string, error) {
 }
 
 func run(args []string, output io.Writer, lookup func(caption.Options) (caption.VideoDetails, error)) error {
+	if len(args) == 1 && (args[0] == "-h" || args[0] == "--help") {
+		_, err := fmt.Fprintln(output, "Usage: ytbext <youtube-video-url>")
+		return err
+	}
 	if len(args) != 1 {
-		return errors.New("usage: youtube-caption-extractor <youtube-video-url>")
+		return errors.New("usage: ytbext <youtube-video-url>")
 	}
 	id, err := videoID(args[0])
 	if err != nil {
